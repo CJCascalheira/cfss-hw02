@@ -1,0 +1,47 @@
+---
+title: "CFSS Homework 02"
+author: "Cory J. Cascalheira"
+date: "November 28, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "~/GitHub/cfss-hw02")
+```
+
+# Exploring Gun Deaths in America
+___
+Let's explore gun deaths in America between the years 2012 to 2014. These data are taken from [MACS 30500](https://cfss.uchicago.edu/index.html), Computing for the Social Sciences, a course taught by [Ben Soltoff](http://www.bensoltoff.com/) at the University of Chicago.
+
+TO begin, we must load dependencies and import data to construct the workspace.
+
+```{r message=FALSE}
+# Load package for utility & visualization
+library(tidyverse)
+
+# Import data
+load(file = "data/gun_deaths.rda")
+```
+
+## Understand the Variables
+___
+If the data were untidy, now would be the time to clean them. That is, we would want to ensure that each cell has exactly one value, each column one variable, and each row one observation. Thanfully, the instructor has cleaned the data ahead of time.
+
+```{r}
+glimpse(gun_deaths)
+```
+
+Aside from one `double` and `factor`, the data are comprised of `integer`s and `character`s.
+
+
+
+
+## Dependencies
+___
+This activity was completed in RStudio.
+
+```{r}
+devtools::session_info()
+```
+
