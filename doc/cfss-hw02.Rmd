@@ -188,6 +188,37 @@ Most victims die in the middle of life, men between the ages of `r gun_death_des
 ___
 How many white males with at least a high school education were killed by guns in 2012?
 
+We can answer this question by filtering with logical statements. Note that at least a high school education is the same as not less than a high school education.
+
+```{r}
+levels(gun_deaths3$education)
+```
+
+```{r}
+gun_deaths3 %>%
+  # Filter rows for target demographic in appropriate year
+  filter(education != "Less than HS", race == "White", sex == "M", year == 2012) %>%
+  count()
+```
+
+15,199 White men with at least a high school education died by gun violence in 2012. 
+
+Delineation of this quantity may reveal other trends.
+
+```{r}
+gun_deaths3 %>%
+  # Filter rows for target demographic in appropriate year
+  filter(education != "Less than HS", race == "White", sex == "M", year == 2012) %>%
+  ggplot(aes(x = intent)) +
+    geom_bar(position = "dodge") +
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(title = "Cause of Death by Gun Violence for Educated White Males (2012)",
+         x = "Cause of Death",
+         y = "Number of Deaths")
+```
+
+Suicide is the leading cause of gun-related death for this demographic.
+
 ## Gun Deaths by Season
 ___
 Which season of the year has the most gun deaths?
