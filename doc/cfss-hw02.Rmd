@@ -23,6 +23,7 @@ TO begin, we must load dependencies and import data to construct the workspace.
 library(tidyverse) # utility & visualization
 library(knitr) # tables
 library(kableExtra) # awesome tables
+library(RColorBrewer) # custome colors
 
 # Import data
 load(file = "data/gun_deaths.rda")
@@ -155,10 +156,33 @@ gun_deaths3 %>%
   ggplot(aes(x = month, fill = intent)) +
     geom_bar(position = "fill") +
     # Draw horizontal line to compare suicide across months
-    geom_hline(yintercept = 0.333)
+    geom_hline(yintercept = 0.333) +
+    scale_fill_brewer(palette = "Spectral")
 ```
 
 Yes, they are.
+
+## Age of Victims by Sex
+___
+How old are the victims when they die by gun violence?
+
+```{r warning=FALSE}
+ggplot(gun_deaths3, aes(x = sex, y = age)) +
+  geom_boxplot()
+```
+
+```{r}
+(gun_death_desc <- gun_deaths3 %>% 
+  group_by(sex) %>%
+  summarize(
+    percentile_75 = quantile(age, p = .75,  na.rm = TRUE),
+    median_age = median(age, na.rm = TRUE),
+    percentile_25 = quantile(age, p = 0.25, na.rm = TRUE),
+    mean_age = mean(age, na.rm = TRUE)
+  ))
+```
+
+Most victims die in the middle of life, men between the ages of `r gun_death_desc[2, 4]` and `r gun_death_desc[2, 2]`. Women die most often around the age of `r round(gun_death_desc[1, 5])`.
 
 ## Dependencies
 ___
