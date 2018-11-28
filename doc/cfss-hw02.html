@@ -260,6 +260,75 @@ load(file = &quot;data/gun_deaths.rda&quot;)</code></pre>
 <pre><code>## [1] &quot;Less than HS&quot; &quot;HS/GED&quot;       &quot;Some college&quot; &quot;BA+&quot;</code></pre>
 <p>Alright, so the <code>education</code> variable is at the ordinal level.</p>
 </div>
+<div id="number-of-gun-deaths-per-month" class="section level2">
+<h2>Number of Gun Deaths per Month</h2>
+<hr />
+<p>How many gun deaths occurred each month in the United States over the course of two years?</p>
+<p>Tables exhibit quantitative information more precisely than graphics, although as humans, we tend to grasp patterns in visualizations. Algorithms prefer tabular data.</p>
+<pre class="r"><code># Count the rows, which represent deaths
+count(gun_deaths, month) %&gt;%
+  kable(caption = &quot;Total Gun Deaths in the United States (2012-2014), by Month&quot;,
+        col.names = c(&quot;Month&quot;, &quot;Total Deaths&quot;))</code></pre>
+<table>
+<caption>Total Gun Deaths in the United States (2012-2014), by Month</caption>
+<thead>
+<tr class="header">
+<th align="right">Month</th>
+<th align="right">Total Deaths</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">8273</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">7093</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">8289</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">8455</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">8669</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">8677</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">8989</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">8783</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">8508</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">8406</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">8243</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">8413</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <hr />
@@ -301,6 +370,7 @@ load(file = &quot;data/gun_deaths.rda&quot;)</code></pre>
 ##  glue          1.3.0   2018-07-17 [1] CRAN (R 3.5.1)
 ##  gtable        0.2.0   2016-02-26 [1] CRAN (R 3.5.0)
 ##  haven         1.1.2   2018-06-27 [1] CRAN (R 3.5.1)
+##  highr         0.7     2018-06-09 [1] CRAN (R 3.5.0)
 ##  hms           0.4.2   2018-03-10 [1] CRAN (R 3.5.0)
 ##  htmltools     0.3.6   2017-04-28 [1] CRAN (R 3.5.0)
 ##  httr          1.3.1   2017-08-20 [1] CRAN (R 3.5.1)

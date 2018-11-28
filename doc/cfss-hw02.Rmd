@@ -22,6 +22,7 @@ TO begin, we must load dependencies and import data to construct the workspace.
 ```{r message=FALSE}
 library(tidyverse) # utility & visualization
 library(knitr) # tables
+library(kableExtra) # awesome tables
 
 # Import data
 load(file = "data/gun_deaths.rda")
@@ -45,6 +46,45 @@ levels(gun_deaths$education)
 
 Alright, so the `education` variable is at the ordinal level.
 
+## Number of Gun Deaths per Month
+___
+How many gun deaths occurred each month in the United States over the course of two years?
+
+Before we tabulate and visualize the data, let's transform `month` into a factor with named levels.
+
+```{r}
+# Vector of month names
+abbr_months <- c("Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+# Transform month into a named factor
+gun_deaths2 <- within(gun_deaths, {
+  month <- factor(month, labels = abbr_months) 
+})
+```
+
+Tables exhibit quantitative information more precisely than graphics. Algorithms prefer tabular data.
+
+```{r}
+# Count the rows, which represent deaths
+count(gun_deaths2, month) %>%
+  # Create the HTML table
+  kable(caption = "Total Gun Deaths in the United States (2012-2014) per Month",
+        col.names = c("Month", "Total Deaths")) %>%
+  # Give the table some CSS love
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+From the table[^1], we see that the number of deaths appears constant. Aside from February, the total number of deaths for each month is above 8,000. It is important to remember that the table aggregates deaths for both years by month.
+
+As humans, we tend to grasp patterns in visualizations better. The only number that jumps out to us after a quick glance at the above table is the leading digital, eight. Our minds blur the remaining digits as nonsensical. This is why $5.99 feels like five dollars and not six.
+
+What does a bar chart tell us?
+
+```{r}
+
+```
+
+
 ## Dependencies
 ___
 This activity was completed in RStudio.
@@ -53,3 +93,4 @@ This activity was completed in RStudio.
 devtools::session_info()
 ```
 
+[^1]: For more information on how to create awesome tables, check out Hao Zhu's [documentation](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html).
