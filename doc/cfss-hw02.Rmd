@@ -184,6 +184,22 @@ ggplot(gun_deaths3, aes(x = sex, y = age)) +
 
 Most victims die in the middle of life, men between the ages of `r gun_death_desc[2, 4]` and `r gun_death_desc[2, 2]`. Women die most often around the age of `r round(gun_death_desc[1, 5])`.
 
+## Gun Death of White Males in 2012
+___
+How many white males with at least a high school education were killed by guns in 2012?
+
+## Gun Deaths by Season
+___
+Which season of the year has the most gun deaths?
+
+## Death Disparities by Race
+___
+Are whites who are killed by guns more likely to die because of suicide or homicide? How does this compare to blacks and hispanics?
+
+## Police-Involved Gun Deaths
+___
+Are police-involved gun deaths significantly different from other gun deaths?
+
 ## Dependencies
 ___
 This activity was completed in RStudio.
