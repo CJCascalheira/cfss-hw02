@@ -2,7 +2,10 @@
 title: "CFSS Homework 02"
 author: "Cory J. Cascalheira"
 date: "November 28, 2018"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +20,8 @@ Let's explore gun deaths in America between the years 2012 to 2014. These data a
 TO begin, we must load dependencies and import data to construct the workspace.
 
 ```{r message=FALSE}
-# Load package for utility & visualization
-library(tidyverse)
+library(tidyverse) # utility & visualization
+library(knitr) # tables
 
 # Import data
 load(file = "data/gun_deaths.rda")
@@ -34,8 +37,13 @@ glimpse(gun_deaths)
 
 Aside from one `double` and `factor`, the data are comprised of `integer`s and `character`s.
 
+What are the levels of the factor?
 
+```{r}
+levels(gun_deaths$education)
+```
 
+Alright, so the `education` variable is at the ordinal level.
 
 ## Dependencies
 ___
