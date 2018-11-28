@@ -111,8 +111,54 @@ ggplot(gun_deaths2, aes(x = month)) +
   theme(axis.text.x = element_text(angle = 45))
 ```
 
-## Number of Gun Deaths by Type
+## Number of Gun Deaths by Intent
 ___
+Earlier, I hypothesized that there are fewer deaths in the month of February due to fewer days to commit homicide. But maybe people kill themselves in February due to loneliness?
+
+```{r}
+unique(gun_deaths2$intent)
+```
+
+Intent is an important variable to consider. First, how many gun deaths are associated with specific intents?
+
+```{r}
+ggplot(gun_deaths2, aes(x = intent)) +
+  geom_bar()
+```
+
+Unfortunately, suicide is the leading cause of gun death in the United States, at least between the years 2012 and 2014.
+
+Now that we know how many deaths correspond to each type of intent, we can reorder the bar graph. Let's remove the `NA` values, too. Reordering a bar graph requires a transformation of `intent` into a factor and specification of the levels.
+
+```{r}
+# Intent as a factor
+gun_deaths3 <- within(gun_deaths2, {
+  intent <- factor(intent, levels = c("Suicide", "Homicide", "Accidental", "Undetermined", NA))
+})
+
+# Remove NA
+gun_deaths3 %>%
+  filter(!is.na(intent)) %>%
+  # Plot reordered bar graph
+  ggplot(aes(x = intent)) +
+    geom_bar() +
+    labs(title = "Cause of Gun Deaths",
+         x = "Intent",
+         y = "Number of Deaths")
+```
+
+So, are there more suicides in February?
+
+```{r}
+gun_deaths3 %>%
+  filter(!is.na(intent)) %>%
+  ggplot(aes(x = month, fill = intent)) +
+    geom_bar(position = "fill") +
+    # Draw horizontal line to compare suicide across months
+    geom_hline(yintercept = 0.333)
+```
+
+Yes, they are.
 
 ## Dependencies
 ___
