@@ -15,7 +15,7 @@ knitr::opts_knit$set(root.dir = "~/GitHub/cfss-hw02")
 
 # Exploring Gun Deaths in America
 ___
-Let's explore gun deaths in America between the years 2012 to 2014. These data are taken from [MACS 30500](https://cfss.uchicago.edu/index.html), Computing for the Social Sciences, a course taught by [Ben Soltoff](http://www.bensoltoff.com/) at the University of Chicago.
+Let's explore gun deaths in America between the years 2012 to 2014. These data, originally compiled by FiveThirtyEight, are taken from [MACS 30500](https://cfss.uchicago.edu/index.html), Computing for the Social Sciences, a course taught by [Ben Soltoff](http://www.bensoltoff.com/) at the University of Chicago.
 
 TO begin, we must load dependencies and import data to construct the workspace.
 
@@ -26,6 +26,12 @@ library(kableExtra) # awesome tables
 
 # Import data
 load(file = "data/gun_deaths.rda")
+```
+
+Let's also set the default theme for all of our plots.
+
+```{r}
+theme_set(theme_classic())
 ```
 
 ## Understand the Variables
@@ -54,7 +60,7 @@ Before we tabulate and visualize the data, let's transform `month` into a factor
 
 ```{r}
 # Vector of month names
-abbr_months <- c("Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+abbr_months <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 # Transform month into a named factor
 gun_deaths2 <- within(gun_deaths, {
@@ -78,12 +84,35 @@ From the table[^1], we see that the number of deaths appears constant. Aside fro
 
 As humans, we tend to grasp patterns in visualizations better. The only number that jumps out to us after a quick glance at the above table is the leading digital, eight. Our minds blur the remaining digits as nonsensical. This is why $5.99 feels like five dollars and not six.
 
-What does a bar chart tell us?
+What does a bar chart[^2] tell us?
 
 ```{r}
-
+ggplot(gun_deaths2, aes(x = month)) +
+  geom_bar() +
+  # Describe the graph
+  labs(title = "Gun Deaths in the United States",
+       subtitle = "From 2012 to 2014",
+       caption = "Source: FiveThirtyEight",
+       x = "Month",
+       y = "Number of Deaths") +
+  # Force origin to start at 0
+  scale_y_continuous(expand = c(0, 0))
 ```
 
+It is tempting to think that the fewest deaths occurred in February due to Valentine's Day. Romantic! However, perhaps this is due to the shortness of the month--fewer days to commit homicide.
+
+This pattern holds even when we break down the months by year.
+
+```{r}
+ggplot(gun_deaths2, aes(x = month)) +
+  geom_bar() +
+  facet_wrap(~ year) +
+  # Rotate axis labels
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+## Number of Gun Deaths by Type
+___
 
 ## Dependencies
 ___
@@ -94,3 +123,4 @@ devtools::session_info()
 ```
 
 [^1]: For more information on how to create awesome tables, check out Hao Zhu's [documentation](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html).
+[^2]: Start the [origin at zero](https://stackoverflow.com/questions/13701347/force-the-origin-to-start-at-0).
