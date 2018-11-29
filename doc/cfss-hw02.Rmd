@@ -259,6 +259,98 @@ Whites are more than five-times as likely to die by suicide than Blacks or Hispa
 ___
 Are police-involved gun deaths significantly different from other gun deaths?
 
+What does the police variable look like?
+
+```{r}
+unique(gun_deaths3$police)
+```
+
+Binary. 0 means no police-involvement. Let's visualize the interaction between race and police-involvement.
+
+```{r}
+gun_deaths3 %>%
+  filter(race == "Black" | race == "White" | race == "Hispanic") %>%
+  count(race, police) %>%
+  ggplot(aes(x = police, y = race)) +
+    geom_tile(aes(fill = n))
+```
+
+The tile plot is not very informative. What if we filter for police-involvement and plot the interaction in a bar graph?
+
+```{r}
+gun_deaths3 %>%
+  filter(police == 1) %>%
+  filter(race == "Black" | race == "White" | race == "Hispanic") %>%
+  ggplot(aes(x = race)) +
+    geom_bar()
+```
+
+Okay, so police are involved in more White cases than Black or Hispanic. Is there a difference if we focus on homicides?
+
+```{r}
+gun_deaths3 %>%
+  filter(police == 1 & intent == "Homicide") %>%
+  filter(race == "Black" | race == "White" | race == "Hispanic") %>%
+  ggplot(aes(x = race)) +
+    geom_bar()
+```
+
+Police appear to be involved in homicides only. Do we know where the police-related gun deaths occurred?
+
+```{r}
+gun_deaths3 %>%
+  filter(police == 1 & intent == "Homicide") %>%
+  filter(race == "Black" | race == "White" | race == "Hispanic") %>%
+  ggplot(aes(x = race)) +
+    geom_bar() +
+    facet_wrap(~ place)
+```
+
+No. Given the coverage in national media, it is stricking to me that police-involved homicides are not greater among African Americans. Then again, these are raw counts, not proportions.
+
+```{r}
+# Police-involved among Whites
+(white_homicide <- gun_deaths3 %>%
+   filter(race == "White" & intent == "Homicide") %>%
+   summarize(
+     total = n(),
+     proportion = mean(police == 1)
+   ))
+
+# Police-involved among Blacks
+(black_homicide <- gun_deaths3 %>%
+   filter(race == "Black" & intent == "Homicide") %>%
+   summarize(
+     total = n(),
+     proportion = mean(police == 1)
+   ))
+
+# Police-involved among Hispanics
+(hispanic_homicide <- gun_deaths3 %>%
+   filter(race == "Hispanic" & intent == "Homicide") %>%
+   summarize(
+     total = n(),
+     proportion = mean(police == 1)
+   ))
+```
+
+Surprisingly, out of all homicides, police involvement was highest among Whites (`r round(white_homicide$proportion * 100, digits = 2)`%) and Hispanics (`r round(hispanic_homicide$proportion * 100, digits = 2)`%). Police-involved homicides occurred in only `r round(black_homicide$proportion * 100, digits = 2)`% of the cases in which an African American died due to gun violence.
+
+Generally, how often are police involved?
+
+```{r}
+# Number of police involved
+(police_involved <- gun_deaths3 %>%
+  filter(police == 1) %>%
+  count() %>%
+  pull())
+
+# Proportion of police involved
+(prop_police_involved <- police_involved / nrow(gun_deaths3))
+```
+
+Between 2012 and 2014, police were only involved in `r police_involved` incidents, or `r round((prop_police_involved * 100), digits = 2)`% of all gun-related deaths.
+
 ## Dependencies
 ___
 This activity was completed in RStudio.
