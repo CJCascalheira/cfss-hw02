@@ -223,6 +223,18 @@ Suicide is the leading cause of gun-related death for this demographic.
 ___
 Which season of the year has the most gun deaths?
 
+We can use `cut()` on the original data frame to divide `month` into four equal seasons.
+
+```{r}
+ggplot(gun_deaths, aes(x = cut(month, 4, include.lowest = TRUE,
+                               labels = c("Winter", "Spring", "Summer", "Fall")))) +
+  geom_bar() +
+  labs(x = "Season",
+       y = "Number of Deaths")
+```
+
+Summer has the highest number of gun-related deaths.
+
 ## Death Disparities by Race
 ___
 Are whites who are killed by guns more likely to die because of suicide or homicide? How does this compare to blacks and hispanics?
