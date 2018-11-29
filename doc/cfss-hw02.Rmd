@@ -239,6 +239,22 @@ Summer has the highest number of gun-related deaths.
 ___
 Are whites who are killed by guns more likely to die because of suicide or homicide? How does this compare to blacks and hispanics?
 
+```{r}
+gun_deaths3 %>%
+  # Filter for cause fo death
+  filter(intent == "Suicide" | intent == "Homicide") %>%
+  # Filter only for races in question
+  filter(race == "Black" | race == "White" | race == "Hispanic") %>%
+  ggplot(aes(x = intent)) +
+    geom_bar() +
+    facet_wrap(~ race) +
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(x = "Cause of Death",
+         y = "Number of Deaths")
+```
+
+Whites are more than five-times as likely to die by suicide than Blacks or Hispanics. 
+
 ## Police-Involved Gun Deaths
 ___
 Are police-involved gun deaths significantly different from other gun deaths?
